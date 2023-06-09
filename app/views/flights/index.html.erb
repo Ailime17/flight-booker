@@ -4,20 +4,34 @@
 
 <%= form_with method: 'get' do %>
   <div>
-    <%= label_tag(:departure_airport, 'Departure airport:') %>
-    <%= select_tag(:departure_airport, options_for_select(@departure_airport_options)) %>
+    <%= label_tag("flight_data[departure_airport]", 'Departure airport:') %>
+    <%= select_tag("flight_data[departure_airport]", options_for_select(@departure_airport_options)) %>
   </div>
   <div>
-    <%= label_tag(:arrival_airport, 'Arrival airport:') %>
-    <%= select_tag(:arrival_airport, options_for_select(@arrival_airport_options)) %>
+    <%= label_tag("flight_data[arrival_airport]", 'Arrival airport:') %>
+    <%= select_tag("flight_data[arrival_airport]", options_for_select(@arrival_airport_options)) %>
   </div>
   <div>
-    <%= label_tag(:date, 'Date of flight:') %>
-    <%= select_tag(:date, options_for_select(@date_options)) %>
+    <%= label_tag("flight_data[date]", 'Date of flight:') %>
+    <%= select_tag("flight_data[date]", options_for_select(@date_options)) %>
   </div>
   <div>
-    <%= label_tag(:num_of_passengers, 'Number of passengers:') %>
-    <%= select_tag(:num_of_passengers, options_for_select([1,2,3,4])) %>
+    <%= label_tag("flight_data[num_of_passengers]", 'Number of passengers:') %>
+    <%= select_tag("flight_data[num_of_passengers]", options_for_select([1,2,3,4])) %>
   </div>
   <div><%= submit_tag('Search') %></div>
+<% end %>
+
+<% if @matching_flights.nil? %>
+  <p>...Search results will appear here...</p>
+<% elsif @matching_flights.empty? %>
+  <p>...No results found...</p>
+<% else %>
+  <h3>Available flights:</h3>
+  <h4>From: <%= params['flight_data']['departure_airport'] %>, To: <%= params['flight_data']['arrival_airport'] %>, Date: <%= params['flight_data']['date'] %>:</h4>
+  <ul>
+  <% @matching_flights.each do |f| %>
+    <li>Time of departure: <%= f.date.strftime("%k:%M") %>, Duration: <%= f.duration_in_hours %>hr</li>
+  <% end %>
+  </ul>
 <% end %>
