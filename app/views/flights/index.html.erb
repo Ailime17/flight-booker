@@ -28,10 +28,14 @@
   <p>...No results found...</p>
 <% else %>
   <h3>Available flights:</h3>
-  <h4>From: <%= params['flight_data']['departure_airport'] %>, To: <%= params['flight_data']['arrival_airport'] %>, Date: <%= params['flight_data']['date'] %>:</h4>
-  <ul>
-  <% @matching_flights.each do |f| %>
-    <li>Time of departure: <%= f.date.strftime("%k:%M") %>, Duration: <%= f.duration_in_hours %>hr</li>
+  <h4>From: <%= params['flight_data']['departure_airport'] %>, To: <%= params['flight_data']['arrival_airport'] %>, Date: <%= params['flight_data']['date'] %>, Number of passengers: <%= params['flight_data']['num_of_passengers'] %>:</h4>
+  <%= form_with url: '/bookings/new', method: 'get' do %>
+    <ul>
+    <% @matching_flights.each do |f| %>
+      <li><%= radio_button_tag(:chosen_flight_id, f.id) %>Time of departure: <%= f.date.strftime("%k:%M") %>, Duration: <%= f.duration_in_hours %>hr</li>
+    <% end %>
+    </ul>
+    <%= hidden_field_tag :passengers_num, params['flight_data']['num_of_passengers'] %>
+    <div><%= submit_tag('Submit') %></div>
   <% end %>
-  </ul>
 <% end %>
