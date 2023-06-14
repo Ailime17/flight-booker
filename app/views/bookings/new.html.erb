@@ -1,0 +1,19 @@
+<%= form_with url: "/bookings" do %>
+  <% n = 0 %>
+  <% @num_of_passengers.times do %>
+    <% n += 1 %>
+    <%= fields_for Booking.new(flight_id: @flight_id).passenger do |p| %>
+      <div>
+        <%= p.label("passengers[pass_#{n}][name]", "Name:") %>
+        <%= p.text_field("passengers[pass_#{n}][name]") %>
+      </div>
+      <div>
+        <%= p.label("passengers[pass_#{n}][email]", "Email:") %>
+        <%= p.text_field("passengers[pass_#{n}][email]") %>
+      </div>
+      <%= hidden_field_tag :passengers_num, @num_of_passengers %>
+      <%= hidden_field_tag :chosen_flight_id, @flight_id %>
+    <% end %>
+  <% end %>
+  <%= submit_tag("Book this flight and submit passenger details") %>
+<% end %>
