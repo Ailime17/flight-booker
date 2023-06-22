@@ -10,11 +10,16 @@ class FlightsController < ApplicationController
     @date_options = dates_array
     if params.key?('flight_data')
       flights_array = []
-      @matching_flights = Flight.where(departure_airport: Airport.find_by(code: params['flight_data']['departure_airport'])).where(arrival_airport: Airport.find_by(code: params['flight_data']['arrival_airport']))
+      @matching_flights = Flight.where(departure_airport: Airport.find_by(code: flight_params['flight_data']['departure_airport'])).where(arrival_airport: Airport.find_by(code: flight_params['flight_data']['arrival_airport']))
       @matching_flights.each do |f|
-        flights_array << f if f.date.strftime("%d-%m-%Y") == params['flight_data']['date']
+        flights_array << f if f.date.strftime("%d-%m-%Y") == flight_params['flight_data']['date']
       end
       @matching_flights = flights_array
     end
+    @flight_params = flight_params
+  end
+
+  def flight_params
+    params.permit(:commit, flight_data: {})
   end
 end
