@@ -17,11 +17,15 @@ class BookingsController < ApplicationController
     @booking.flight_id = @flight_id
 
     if @booking.save
-      redirect_to root_path, notice: "Successfully booked flight \##{@flight_id}"
+      redirect_to @booking, notice: "Successfully booked flight \##{@flight_id}"
     else
       flash.now[:error] = 'Booking not successfull'
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @booking = Booking.find(params[:id])
   end
 
   def booking_params
