@@ -1,8 +1,8 @@
 class BookingsController < ApplicationController
   def new
-    @flight_id = params["chosen_flight_id"]
+    @flight_id = flight_params["chosen_flight_id"]
     @chosen_flight = Flight.find(@flight_id)
-    @num_of_passengers = params["passengers_num"].to_i
+    @num_of_passengers = flight_params["passengers_num"].to_i
 
     @booking = Booking.new(flight_id: @flight_id)
     @num_of_passengers.times do
@@ -11,9 +11,9 @@ class BookingsController < ApplicationController
   end
 
   def create
-    @flight_id = params['flight_id']
+    @flight_id = booking_params['flight_id']
 
-    @booking = Booking.new(booking_params)
+    @booking = Booking.new(booking_params[:booking])
     @booking.flight_id = @flight_id
 
     if @booking.save
@@ -29,6 +29,10 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(passengers_attributes: [:id, :name, :email])
+    params.permit(:authenticity_token, :commit, :flight_id, booking: {passengers_attributes: [:id, :name, :email]})
+  end
+
+  def flight_params
+    params.permit(:passengers_num, :chosen_flight_id, :commit)
   end
 end
