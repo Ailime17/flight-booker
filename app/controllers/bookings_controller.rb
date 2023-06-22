@@ -1,30 +1,38 @@
 class BookingsController < ApplicationController
   def new
-    @flight_id = params["chosen_flight_id"]
+    @flight_id = flight_params["chosen_flight_id"]
     @chosen_flight = Flight.find(@flight_id)
-    @num_of_passengers = params["passengers_num"].to_i
+    @num_of_passengers = flight_params["passengers_num"].to_i
+
+    @booking = Booking.new(flight_id: @flight_id)
+    @num_of_passengers.times do
+      @booking.passengers.build
+    end
   end
 
   def create
-    # p params
-    @flight_id = booking_params["chosen_flight_id"]
-    @num_of_passengers = booking_params["passengers_num"].to_i
+    @flight_id = booking_params['flight_id']
 
-    n=0
+    @booking = Booking.new(booking_params[:booking])
+    @booking.flight_id = @flight_id
 
-    @num_of_passengers.times do
-      n+=1
-      instance_variable_set("@passenger_#{n}", Passenger.new(booking_params['passengers']["pass_#{n}"]))
-
-      unless instance_variable_get("@passenger_#{n}").save && Booking.create(flight_id: @flight_id, passenger_id: instance_variable_get("@passenger_#{n}").id)
-        render :new, status: :unprocessable_entity
-        return
-      end
+    if @booking.save
+      redirect_to @booking, notice: "Successfully booked flight \##{@flight_id}"
+    else
+      flash.now[:error] = 'Booking not successfull'
+      render :new, status: :unprocessable_entity
     end
-    redirect_to root_path
+  end
+
+  def show
+    @booking = Booking.find(params[:id])
   end
 
   def booking_params
-    params.permit(:authenticity_token, :passengers_num, :chosen_flight_id, :commit, passengers: {})
+    params.permit(:authenticity_token, :commit, :flight_id, booking: {passengers_attributes: [:id, :name, :email]})
+  end
+
+  def flight_params
+    params.permit(:passengers_num, :chosen_flight_id, :commit)
   end
 end

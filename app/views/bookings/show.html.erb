@@ -1,0 +1,22 @@
+<h1>Booking #<%= @booking.id %></h1>
+
+<h3>Flight information:</h3>
+<p>Date: <%= @booking.flight.date.strftime("%k:%M, %d(%A)-%m-%Y") %></p>
+<p>Departure airport: <%= @booking.flight.departure_airport.code %></p>
+<p>Arrival airport: <%= @booking.flight.arrival_airport.code %></p>
+<p>Duration: <%= @booking.flight.duration_in_hours %> h</p>
+
+<% if @booking.passengers.count > 1 %>
+  <h3>Passengers' information:</h3>
+  <% n = 0 %>
+  <% @booking.passengers.each do |p| %>
+    <% n += 1 %>
+    <h4>Passenger <%= n %>:</h4>
+    <p>Name: <%= p.name %></p>
+    <p>Email: <%= p.email %></p>
+  <% end %>
+<% else %>
+  <h3>Passenger information:</h3>
+    <p>Name: <%= @booking.passengers.first.name %></p>
+    <p>Email: <%= @booking.passengers.first.email %></p>
+<% end %>

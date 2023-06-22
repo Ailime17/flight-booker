@@ -1,19 +1,33 @@
-<%= form_with url: "/bookings" do %>
+<%= form_with model: @booking do |f| %>
+  <div>
+    <%= label_tag :flight_date, "Flight date:" %>
+    <%= text_field_tag :flght_date, @chosen_flight.date.strftime("%k:%M, %d(%A)-%m-%Y"), :disabled => true %>
+  </div>
+  <div>
+    <%= label_tag :dep_airport, "Departure airport:" %>
+    <%= text_field_tag :dep_airport, @chosen_flight.departure_airport.code, :disabled => true %>
+  </div>
+  <div>
+    <%= label_tag :arr_airport, "Arrival airport:" %>
+    <%= text_field_tag :arr_airport, @chosen_flight.arrival_airport.code, :disabled => true %>
+  </div>
+  <div>
+    <%= label_tag :flight_id, "Flight ID:" %>
+    <%= text_field_tag :flight_id, @flight_id, :readonly => true %>
+  </div>
   <% n = 0 %>
-  <% @num_of_passengers.times do %>
+  <%= f.fields_for :passengers do |p| %>
     <% n += 1 %>
-    <%= fields_for Booking.new(flight_id: @flight_id).passenger do |p| %>
-      <div>
-        <%= p.label("passengers[pass_#{n}][name]", "Name:") %>
-        <%= p.text_field("passengers[pass_#{n}][name]") %>
-      </div>
-      <div>
-        <%= p.label("passengers[pass_#{n}][email]", "Email:") %>
-        <%= p.text_field("passengers[pass_#{n}][email]") %>
-      </div>
-      <%= hidden_field_tag :passengers_num, @num_of_passengers %>
-      <%= hidden_field_tag :chosen_flight_id, @flight_id %>
-    <% end %>
+    <h4>Passenger <%= "#{n}" %>:</h4>
+    <div>
+      <%= p.label(:name, "Name:") %>
+      <%= p.text_field(:name) %>
+    </div>
+    <div>
+      <%= p.label(:email, "Email:") %>
+      <%= p.text_field(:email) %>
+    </div>
   <% end %>
-  <%= submit_tag("Book this flight and submit passenger details") %>
+  <%= submit_tag("Book this flight and submit passenger(s) details") %>
 <% end %>
+
