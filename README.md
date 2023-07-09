@@ -1,4 +1,4 @@
-Rails app with some more advanced form features.
+Rails app with some more advanced form features (and sprinkles of Stimulus framework).
 
 
 Assignment from <a href="https://www.theodinproject.com">The Odin Project</a>:
@@ -96,4 +96,8 @@ Go to the Booking model and implement the #accepts_nested_attributes_for method.
 Once your form is successfully submitted, render the booking’s #show page which displays the booking information (flight and passenger information).
 
 
-Make sure your ticketing flow is working properly. Good work!'
+Add a Stimulus controller that allows the user to add another passenger by clicking on an “Add passenger” button, which adds another set of fields to enter the passenger details (hint: have a look at the <template> tag)
+
+Allow to remove existing passengers by clicking a “Remove” button, which removes the one set of passenger fields (make sure submissions to the server still works as expected)
+
+Prevent removing the last set of passenger details.'

@@ -18,16 +18,40 @@
   <% n = 0 %>
   <%= f.fields_for :passengers do |p| %>
     <% n += 1 %>
-    <h4>Passenger <%= "#{n}" %>:</h4>
-    <div>
-      <%= p.label(:name, "Name:") %>
-      <%= p.text_field(:name) %>
-    </div>
-    <div>
-      <%= p.label(:email, "Email:") %>
-      <%= p.text_field(:email) %>
+    <div data-controller="add-or-remove-passenger" data-add-or-remove-passenger-count-value=<%= n %>>
+      <div data-add-or-remove-passenger-target="template">
+        <h4>Passenger :</h4>
+        <div>
+          <%= p.label(:name, "Name:") %>
+          <%= p.text_field(:name) %>
+        </div>
+        <div>
+          <%= p.label(:email, "Email:") %>
+          <%= p.text_field(:email) %>
+        </div>
+        <button type="button" data-action="add-or-remove-passenger#hideTemplate">Remove passenger</button>
+      </div>
     </div>
   <% end %>
+  <div data-controller="add-or-remove-passenger" data-add-or-remove-passenger-count-value=<%= n %>>
+    <button type="button" data-action="add-or-remove-passenger#showTemplate:once">Add another passenger</button>
+    <template data-add-or-remove-passenger-target="addTemplate">
+      <div data-add-or-remove-passenger-target="template">
+        <h4>Passenger :</h4>
+        <%= f.fields_for :passengers, @booking.passengers.build do |p| %>
+          <div>
+            <%= p.label(:name, "Name:") %>
+            <%= p.text_field(:name) %>
+          </div>
+          <div>
+            <%= p.label(:email, "Email:") %>
+            <%= p.text_field(:email) %>
+          </div>
+        <%end%>
+        <button type="button" data-action="add-or-remove-passenger#hideTemplate">Remove passenger</button>
+      </div>
+    </template>
+  </div>
   <%= submit_tag("Book this flight and submit passenger(s) details") %>
 <% end %>
 
