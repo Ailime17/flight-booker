@@ -1,4 +1,7 @@
-Rails app with some more advanced form features (and sprinkles of Stimulus framework).
+Rails app with:
+- some more advanced form features
+- sprinkles of Stimulus framework
+- email sending functionality
 
 
 Assignment from <a href="https://www.theodinproject.com">The Odin Project</a>:
@@ -93,11 +96,34 @@ You’ll need your #create action to create a new Booking (linking it to the app
 
 Go to the Booking model and implement the #accepts_nested_attributes_for method.
 
-Once your form is successfully submitted, render the booking’s #show page which displays the booking information (flight and passenger information).
+Once your form is successfully submitted, render the booking’s #show page which displays the booking information (flight and passenger information).'
 
 
-Add a Stimulus controller that allows the user to add another passenger by clicking on an “Add passenger” button, which adds another set of fields to enter the passenger details (hint: have a look at the <template> tag)
+Stimulus:
+
+'Add a Stimulus controller that allows the user to add another passenger by clicking on an “Add passenger” button, which adds another set of fields to enter the passenger details (hint: have a look at the <template> tag)
 
 Allow to remove existing passengers by clicking a “Remove” button, which removes the one set of passenger fields (make sure submissions to the server still works as expected)
 
 Prevent removing the last set of passenger details.'
+
+
+Email:
+
+'You’ll [...] send out a “You have booked your ticket” confirmation email to all Passengers when they are created as part of the booking process.
+
+Generate your new mailer with $ rails generate mailer PassengerMailer.
+
+Install the letter_opener gem (see docs here) to open your emails in the browser instead of sending them in the development environment.
+
+Follow through the steps listed in the Rails Guide to create the action to send the confirmation email.
+
+Build both an .html.erb and .text.erb version of your ticket confirmation email.
+
+Test that the email sends by creating a new flight booking (letter_opener should open it in the browser for you if you’ve set it up properly).
+
+Try out one other trick – call the mailer directly from the Rails Console using something like:
+
+> PassengerMailer.confirmation_email(Passenger.first).deliver_now!
+
+Extra Credit: Deploy it to a hosting provider and try it out. There will be a bit of additional setup to get something an email provider like SendGrid working and sending emails in production for you.'
