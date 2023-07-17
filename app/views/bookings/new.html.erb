@@ -27,7 +27,7 @@
         </div>
         <div>
           <%= p.label(:email, "Email:") %>
-          <%= p.text_field(:email) %>
+          <%= p.email_field(:email) %>
         </div>
         <button type="button" data-action="add-or-remove-passenger#hideTemplate">Remove passenger</button>
       </div>
@@ -45,7 +45,7 @@
           </div>
           <div>
             <%= p.label(:email, "Email:") %>
-            <%= p.text_field(:email) %>
+            <%= p.email_field(:email) %>
           </div>
         <%end%>
         <button type="button" data-action="add-or-remove-passenger#hideTemplate">Remove passenger</button>
