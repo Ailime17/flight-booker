@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Good day, <%= @passenger.name %>!</p>
+    <p>This is your automatic booking confirmation email.</p>
+    <p>Thank you for booking a flight with us!</p>
+    <p>Your flight and passenger details can be viewed <%= link_to "here", booking_url(@booking) %></p>
+    <p>Have a great journey!</p><br><br>
+  </body>
+</html>
