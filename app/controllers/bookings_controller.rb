@@ -17,6 +17,9 @@ class BookingsController < ApplicationController
     @booking.flight_id = @flight_id
 
     if @booking.save
+      @booking.passengers.each do |passenger|
+        PassengerMailer.with(booking: @booking, passenger: passenger).confirmation_email.deliver_later
+      end
       redirect_to @booking, notice: "Successfully booked flight \##{@flight_id}"
     else
       flash.now[:error] = 'Booking not successfull'
